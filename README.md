@@ -1,5 +1,3 @@
-<!-- SPDX-License-Identifier: MPL-2.0 -->
-
 # ycode
 
 [![CI](https://github.com/marcprux/ycode/actions/workflows/ci.yml/badge.svg)](https://github.com/marcprux/ycode/actions/workflows/ci.yml)
@@ -13,8 +11,7 @@ for inspecting projects and making focused changes.
 
 The model is an idiomatic Rust adaptation of
 [Apple’s xcode-project-format](https://github.com/apple/xcode-project-format).
-It is intended for IDE integrations, project tools, automation, and an eventual
-build driver.
+It is intended for IDE integrations, project tools, and automation.
 
 | Crate | Purpose |
 | --- | --- |
@@ -211,10 +208,6 @@ JSON5 parsing rejects duplicate object keys, non-finite numbers, integers outsid
 The document layer compensates for scalar-decoding issues in `json-five` 0.3.1,
 and edits source spans directly rather than reprinting its round-trip AST.
 
-Dependencies deliberately match `day-cli`’s compatible version ranges:
-`serde = "1"`, `serde_json = "1"`, `json-five = "=0.3.1"`, and
-`clap = "4.6"` with `derive`/`wrap_help`. The library does not depend on the CLI.
-
 App-owned help and messages use generated `res::str` accessors from checked
 English/French catalogs. `LC_ALL`, `LC_MESSAGES`, then `LANG` select the language;
 unsupported locales use English. Protocol keys, project content, and dependency
@@ -258,11 +251,5 @@ licensed under the [Mozilla Public License 2.0 (MPL-2.0)](https://github.com/mar
 Both crates declare this license and their source files identify it
 with SPDX headers.
 
-The schema is adapted from Apple’s `xcode-project-format`. Apple’s copyright
-and attribution are retained in the adapted files and
-[NOTICE](https://github.com/marcprux/ycode/blob/main/NOTICE). The saved Apple-derived
-test corpus retains **Apache-2.0 WITH Swift-exception**; the original license is
-included in [LICENSE-APPLE](https://github.com/marcprux/ycode/blob/main/LICENSE-APPLE)
-and both crate packages. The [fixture provenance](https://github.com/marcprux/ycode/blob/main/crates/ycode-project/tests/fixtures/README.md)
-and its adjacent SPDX license file identify this exception. ycode is an independent
-project.
+The schema is adapted from Apple’s `xcode-project-format`, whose
+test corpus retains **Apache-2.0 WITH Swift-exception**.

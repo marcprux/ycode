@@ -1,0 +1,25 @@
+[workspace]
+members = ["crates/ycode-project", "crates/ycode-cli"]
+resolver = "3"
+
+[workspace.package]
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.89"
+repository = "https://github.com/marcprux/ycode"
+license = "MPL-2.0"
+readme = "README.md"
+
+[workspace.dependencies]
+ycode-project = { version = "0.1.0", path = "crates/ycode-project" }
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+# Match day-cli, including its round-trip parser bug workaround.
+json-five = "=0.3.1"
+clap = { version = "4.6", features = ["derive", "wrap_help"] }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+
+[workspace.lints.clippy]
+all = "warn"

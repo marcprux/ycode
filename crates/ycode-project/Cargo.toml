@@ -1,0 +1,22 @@
+[package]
+name = "ycode-project"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+repository.workspace = true
+license.workspace = true
+readme = "../../README.md"
+description = "Rust models and comment-preserving editing for Xcode JSON5 project.xcproj files"
+keywords = ["xcode", "xcproj", "json5", "ide", "project"]
+categories = ["development-tools", "parser-implementations"]
+
+[dependencies]
+serde.workspace = true
+serde_json.workspace = true
+json-five.workspace = true
+
+[build-dependencies]
+serde_json.workspace = true
+
+[lints]
+workspace = true

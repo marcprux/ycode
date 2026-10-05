@@ -1,0 +1,21 @@
+{
+  "syntax": "JSON5 invalide",
+  "schema": "Projet Xcode invalide",
+  "invalid_value": "Valeur invalide",
+  "invalid_pointer": "Pointeur JSON invalide",
+  "missing_pointer": "Aucune valeur à ce pointeur JSON",
+  "duplicate_key": "Clé d’objet en double",
+  "duplicate_target": "Nom de cible en double",
+  "unsupported_capability": "Fonctionnalité requise non prise en charge",
+  "depth_limit": "Le document dépasse la profondeur maximale de 128 niveaux",
+  "phase_properties": "Cette phase de compilation nécessite un objet contenant ses propriétés",
+  "conflicting_exceptions": "Un ensemble d’exceptions ne peut pas contenir à la fois des inclusions et des exclusions",
+  "target_not_found": "Cible introuvable",
+  "concurrent_change": "Le fichier a été modifié sur le disque ; rechargez-le avant d’enregistrer",
+  "io": "L’opération sur le fichier a échoué",
+  "not_regular": "Un fichier ordinaire est requis",
+  "invalid_range": "La plage de versions doit contenir un seul séparateur '..<'",
+  "redundant_configuration": "Une spécialisation de configuration de cible nécessite un fichier ou un identifiant",
+  "internal": "Impossible de préserver le document de manière sûre",
+  "no_source_file": "Le document n’a pas de fichier source ; utilisez write_new ou enregistrez-le dans l’éditeur"
+}

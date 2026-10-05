@@ -1,0 +1,24 @@
+// Copyright © 2026 ycode contributors
+
+// Synthetic example: a small native target with a synchronized source folder.
+{
+  "default-configuration": "Debug",
+  configurations: ["Debug", "Release"],
+  localizations: { development: "en", supported: ["fr"] },
+  files: [
+    { kind: "folder", path: "Sources", "target-membership": ["Example"] },
+  ],
+  targets: [
+    {
+      name: "Example",
+      id: "0123456789ABCDEF01234567",
+      "product-type": "tool",
+      "build-phases": ["compile-sources", "frameworks"],
+      "build-settings": {
+        // Keep this explanation when changing the language version.
+        SWIFT_VERSION: "6.0",
+        PRODUCT_NAME: "$(TARGET_NAME)",
+      },
+    },
+  ],
+}
