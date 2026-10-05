@@ -244,6 +244,38 @@ are available. To regenerate the corpus or check Rust output with Swift, see the
 The CLI dispatch separates top-level commands from project operations so future
 build and IDE integrations can reuse `ycode-project` independently.
 
+## Releases
+
+Pushing a `vX.Y.Z` tag runs the formatting and Clippy gate, then the full macOS,
+Ubuntu, and Windows test matrix. CI checks that the tag matches the workspace
+version, verifies both packaged crates with `cargo publish --workspace --dry-run`,
+and publishes `ycode-project` followed by `ycode-cli`. After publication succeeds,
+it creates a GitHub release for the existing tag with automatically generated
+release notes. An existing GitHub release and its notes are preserved on reruns.
+Branch pushes, pull requests, and manual workflow runs do not publish releases.
+
+Publishing uses [crates.io Trusted Publishing](https://crates.io/docs/trusted-publishing),
+with temporary credentials supplied by GitHub Actions. Configure a Trusted
+Publisher on **both crates** with owner `marcprux`, repository `ycode`, workflow
+filename `ci.yml`, and environment `release`. Create the matching `release`
+environment in the GitHub repository settings and allow deployment from tags
+matching `v*`. No stored crates.io API token is required.
+
+For each release, update `[workspace.package].version` and the `ycode-project`
+dependency requirement in the root `Cargo.toml`, refresh `Cargo.lock`, and commit
+the release changes. Push the commit and its matching tag, for example:
+
+```sh
+git tag -a v0.1.1 -m "Release v0.1.1"
+git push origin v0.1.1
+```
+
+The tagged commit must include the publishing workflow. Existing tags are not
+released retroactively when the workflow changes. If a GitHub release step fails
+after crates.io publication, rerun the failed job. If publication itself fails
+partway through, check the published versions before retrying: crates.io uploads
+cannot replace an existing version.
+
 ## License
 
 ycode’s Rust implementation, CLI, documentation, and original examples are
@@ -253,4 +285,3 @@ with SPDX headers.
 
 The schema is adapted from Apple’s `xcode-project-format`, whose
 test corpus retains **Apache-2.0 WITH Swift-exception**.
-
