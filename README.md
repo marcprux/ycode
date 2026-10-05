@@ -253,3 +253,4 @@ with SPDX headers.
 
 The schema is adapted from Apple’s `xcode-project-format`, whose
 test corpus retains **Apache-2.0 WITH Swift-exception**.
+
