@@ -303,7 +303,7 @@ dependencies = [
 
 [[package]]
 name = "ycode-cli"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "clap",
  "serde_json",
@@ -312,7 +312,7 @@ dependencies = [
 
 [[package]]
 name = "ycode-project"
-version = "0.1.1"
+version = "0.1.2"
 dependencies = [
  "json-five",
  "serde",
