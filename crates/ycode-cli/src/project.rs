@@ -1,10 +1,7 @@
 // Copyright © 2026 ycode contributors
 // SPDX-License-Identifier: MPL-2.0
 
-use crate::{
-    cli::{Output, ProjectArgs, ProjectCommand, SettingsCommand},
-    res,
-};
+use crate::cli::{Output, ProjectArgs, ProjectCommand, SettingsCommand};
 use serde_json::{Value, json};
 use std::io::{self, Write};
 use ycode_project::{Error, ProjectDocument, Reference, Result};
@@ -20,15 +17,14 @@ pub fn run(args: ProjectArgs) -> Result<()> {
                     "packages":p.packages.len(),"configurations":p.configurations.len(),
                     "default-configuration":p.default_configuration,"development-language":p.localizations.development}))
             } else {
-                print_line(
-                    &res::str::summary()
-                        .replace("{targets}", &p.targets.len().to_string())
-                        .replace("{files}", &count.to_string())
-                        .replace("{packages}", &p.packages.len().to_string())
-                        .replace("{configurations}", &p.configurations.len().to_string())
-                        .replace("{default}", p.default_configuration.as_ref())
-                        .replace("{language}", p.localizations.development.as_ref()),
-                )
+                print_line(&format!(
+                    "Targets: {}\nFile-tree entries: {count}\nPackages: {}\nConfigurations: {}\nDefault configuration: {}\nDevelopment language: {}",
+                    p.targets.len(),
+                    p.packages.len(),
+                    p.configurations.len(),
+                    p.default_configuration,
+                    p.localizations.development,
+                ))
             }
         }
         ProjectCommand::Targets => {
@@ -59,7 +55,7 @@ pub fn run(args: ProjectArgs) -> Result<()> {
             if args.json {
                 print_json(&json!({"valid":true}))
             } else {
-                print_line(res::str::valid())
+                print_line("Project is valid")
             }
         }
         ProjectCommand::Get { pointer } => print_json(document.get(&pointer)?),

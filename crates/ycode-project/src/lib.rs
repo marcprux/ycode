@@ -20,7 +20,6 @@
 mod document;
 mod error;
 pub mod model;
-mod res;
 mod syntax;
 mod validation;
 pub use document::{ProjectDocument, TextEdit};

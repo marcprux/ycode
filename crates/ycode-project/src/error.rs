@@ -1,12 +1,11 @@
 // Copyright © 2026 ycode contributors
 // SPDX-License-Identifier: MPL-2.0
 
-use crate::res;
 use std::{fmt, io};
 
 pub type Result<T> = std::result::Result<T, Error>;
 
-/// Structured failures suitable for localization in an IDE.
+/// Structured failures for IDE integrations, with English display messages.
 #[derive(Debug)]
 #[non_exhaustive]
 pub enum Error {
@@ -42,23 +41,26 @@ impl fmt::Display for Error {
                 line,
                 column,
                 ..
-            } => return write!(f, "{} ({line}:{column}): {message}", res::str::syntax()),
-            Self::Schema(s) => (res::str::schema(), Some(s)),
-            Self::InvalidValue(s) => (res::str::invalid_value(), Some(s)),
-            Self::InvalidPointer(s) => (res::str::invalid_pointer(), Some(s)),
-            Self::MissingPointer(s) => (res::str::missing_pointer(), Some(s)),
+            } => return write!(f, "Invalid JSON5 ({line}:{column}): {message}"),
+            Self::Schema(s) => ("Invalid Xcode project", Some(s)),
+            Self::InvalidValue(s) => ("Invalid value", Some(s)),
+            Self::InvalidPointer(s) => ("Invalid JSON pointer", Some(s)),
+            Self::MissingPointer(s) => ("No value at JSON pointer", Some(s)),
             Self::DuplicateKey { key, offset } => {
-                return write!(f, "{} ({offset}): {key}", res::str::duplicate_key());
+                return write!(f, "Duplicate object key ({offset}): {key}");
             }
-            Self::DuplicateTarget(s) => (res::str::duplicate_target(), Some(s)),
-            Self::UnsupportedCapability(s) => (res::str::unsupported_capability(), Some(s)),
-            Self::DepthLimit => (res::str::depth_limit(), None),
-            Self::TargetNotFound(s) => (res::str::target_not_found(), Some(s)),
-            Self::ConcurrentChange => (res::str::concurrent_change(), None),
-            Self::NoSourceFile => (res::str::no_source_file(), None),
-            Self::NotRegularFile => (res::str::not_regular(), None),
-            Self::Io(e) => (res::str::io(), Some(e)),
-            Self::Internal => (res::str::internal(), None),
+            Self::DuplicateTarget(s) => ("Duplicate target name", Some(s)),
+            Self::UnsupportedCapability(s) => ("Unsupported required capability", Some(s)),
+            Self::DepthLimit => ("Document exceeds the maximum nesting depth of 128", None),
+            Self::TargetNotFound(s) => ("Target not found", Some(s)),
+            Self::ConcurrentChange => ("The file changed on disk; reload it before saving", None),
+            Self::NoSourceFile => (
+                "The document has no source file; use write_new or save through the editor",
+                None,
+            ),
+            Self::NotRegularFile => ("Expected a regular file", None),
+            Self::Io(e) => ("File operation failed", Some(e)),
+            Self::Internal => ("Unable to preserve the document safely", None),
         };
         f.write_str(label)?;
         if let Some(detail) = detail {

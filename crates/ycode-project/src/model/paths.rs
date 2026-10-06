@@ -192,7 +192,7 @@ impl<'de> Deserialize<'de> for NamePathComponent {
                 "." => Ok(Self::Current),
                 ".." => Ok(Self::Parent),
                 _ if !s.contains('/') => Ok(Self::Child(s)),
-                _ => Err(serde::de::Error::custom(crate::res::str::invalid_value())),
+                _ => Err(serde::de::Error::custom("Invalid value")),
             },
         }
     }

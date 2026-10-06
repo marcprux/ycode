@@ -176,7 +176,9 @@ impl<'de> Deserialize<'de> for BuildPhase {
         let mut value = Value::deserialize(deserializer)?;
         if let Value::String(kind) = &value {
             if matches!(kind.as_str(), "script" | "copy" | "apple-script") {
-                return Err(serde::de::Error::custom(crate::res::str::phase_properties()));
+                return Err(serde::de::Error::custom(
+                    "This build phase requires an object with phase properties",
+                ));
             }
             value = serde_json::json!({"kind": kind});
         }

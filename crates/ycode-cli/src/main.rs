@@ -3,7 +3,6 @@
 
 mod cli;
 mod project;
-mod res;
 
 use clap::Parser;
 use std::{
@@ -21,7 +20,7 @@ fn main() -> ExitCode {
             ExitCode::SUCCESS
         }
         Err(error) => {
-            let _ = writeln!(io::stderr().lock(), "{}: {error}", res::str::error());
+            let _ = writeln!(io::stderr().lock(), "Error: {error}");
             ExitCode::FAILURE
         }
     }

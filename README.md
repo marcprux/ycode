@@ -208,10 +208,7 @@ JSON5 parsing rejects duplicate object keys, non-finite numbers, integers outsid
 The document layer compensates for scalar-decoding issues in `json-five` 0.3.1,
 and edits source spans directly rather than reprinting its round-trip AST.
 
-App-owned help and messages use generated `res::str` accessors from checked
-English/French catalogs. `LC_ALL`, `LC_MESSAGES`, then `LANG` select the language;
-unsupported locales use English. Protocol keys, project content, and dependency
-or operating-system diagnostics are not translated.
+Tool help and messages are written in English directly in the Rust source.
 
 ## Development
 

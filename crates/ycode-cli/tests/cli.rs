@@ -29,7 +29,6 @@ impl Fixture {
     }
     fn run(&self, args: &[&str]) -> Output {
         Command::new(env!("CARGO_BIN_EXE_ycode"))
-            .env("LC_ALL", "C")
             .arg("project")
             .arg("-p")
             .arg(&self.path)
@@ -57,6 +56,10 @@ fn inspect_get_and_validate() {
     let info = successful(f.run(&["info", "--json"]));
     let info: serde_json::Value = serde_json::from_str(&info).unwrap();
     assert_eq!(info["targets"], 1);
+    assert_eq!(
+        successful(f.run(&["info"])),
+        "Targets: 1\nFile-tree entries: 0\nPackages: 0\nConfigurations: 0\nDefault configuration: Debug\nDevelopment language: en\n"
+    );
     assert!(successful(f.run(&["targets"])).contains("App"));
     assert_eq!(
         successful(f.run(&["get", "/targets/0/name"])).trim(),
@@ -133,19 +136,32 @@ fn invalid_edit_never_touches_input_and_errors_have_nonzero_status() {
     assert_eq!(fs::read_to_string(&f.path).unwrap(), SOURCE);
 }
 #[test]
-fn bundles_and_localized_app_help_work() {
+fn bundles_work_and_messages_remain_english_in_other_locales() {
     let f = Fixture::new();
     let output = Command::new(env!("CARGO_BIN_EXE_ycode"))
+        .env("LC_ALL", "fr_FR.UTF-8")
         .args(["project", "-p"])
         .arg(&f.directory)
         .arg("validate")
         .output()
         .unwrap();
-    successful(output);
+    assert_eq!(successful(output).trim(), "Project is valid");
     let output = Command::new(env!("CARGO_BIN_EXE_ycode"))
         .env("LC_ALL", "fr_FR.UTF-8")
         .args(["project", "--help"])
         .output()
         .unwrap();
-    assert!(successful(output).contains("Lire et modifier"));
+    assert!(successful(output).contains("Read and update project.xcproj files"));
+    let output = Command::new(env!("CARGO_BIN_EXE_ycode"))
+        .env("LC_ALL", "fr_FR.UTF-8")
+        .args(["project", "-p"])
+        .arg(&f.path)
+        .args(["get", "/missing"])
+        .output()
+        .unwrap();
+    assert!(!output.status.success());
+    assert_eq!(
+        String::from_utf8(output.stderr).unwrap().trim(),
+        "Error: No value at JSON pointer: /missing"
+    );
 }

@@ -1,7 +1,7 @@
 // Copyright © 2026 ycode contributors
 // SPDX-License-Identifier: MPL-2.0
 
-use crate::{Error, Project, Result, model::*, res};
+use crate::{Error, Project, Result, model::*};
 use std::collections::BTreeSet;
 
 impl Project {
@@ -22,7 +22,9 @@ impl Project {
                 if matches!(config, Configuration::Name(_))
                     || matches!(config, Configuration::Detailed(c) if c.id.is_none() && c.file.is_none())
                 {
-                    return Err(Error::Schema(res::str::redundant_configuration().into()));
+                    return Err(Error::Schema(
+                        "Target configuration specialization requires a file or ID".into(),
+                    ));
                 }
             }
         }
@@ -33,7 +35,9 @@ impl Project {
             } = &package.location
                 && range.split("..<").count() != 2
             {
-                return Err(Error::Schema(res::str::invalid_range().into()));
+                return Err(Error::Schema(
+                    "Expected a version range with one '..<' separator".into(),
+                ));
             }
         }
         fn references(refs: &[Reference]) -> Result<()> {
@@ -48,7 +52,7 @@ impl Project {
                             };
                             if common.inclusions.is_some() && common.exclusions.is_some() {
                                 return Err(Error::Schema(
-                                    res::str::conflicting_exceptions().into(),
+                                    "An exception set cannot contain both inclusions and exclusions".into(),
                                 ));
                             }
                         }
