@@ -47,7 +47,7 @@ jobs:
               raise SystemExit(f"Tag {tag} does not match workspace version {version}")
       - name: Check formatting
         run: cargo fmt --all --check
-      - uses: Swatinem/rust-cache@v2.9.2
+      - uses: Swatinem/rust-cache@v2.9.3
       - name: Check Clippy
         run: cargo clippy --workspace --all-targets --all-features --locked -- -D warnings
 
@@ -67,7 +67,7 @@ jobs:
         with:
           persist-credentials: false
       - uses: dtolnay/rust-toolchain@stable
-      - uses: Swatinem/rust-cache@v2.9.2
+      - uses: Swatinem/rust-cache@v2.9.3
         with:
           key: stable
           workspaces: . -> target/ci-stable
@@ -81,7 +81,7 @@ jobs:
           RUSTDOCFLAGS: -D warnings
         run: cargo +stable doc --workspace --all-features --no-deps --locked
       - uses: dtolnay/rust-toolchain@1.89.0
-      - uses: Swatinem/rust-cache@v2.9.2
+      - uses: Swatinem/rust-cache@v2.9.3
         with:
           key: msrv
           workspaces: . -> target/msrv
